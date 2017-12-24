@@ -1,6 +1,2 @@
 /* You can add global styles to this file, and also import other style files */
 @import "assets/css/bootstrap.min.css";
-
-.active {
-    background:#272825;
-}
