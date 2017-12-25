@@ -243,7 +243,7 @@ The code in this section mainly focuses on building the front-end with Angular. 
     ```
 
 # Deploying to Heroku
-This code may be deployed to Heroku and connected to mLab making it accessible on the internet.  This guide has been slightly modified from [Part 10](https://www.youtube.com/watch?v=cBfcbb07Tqk&t=1s) of the video series as this code has been structure differently.
+This code may be deployed to Heroku and connected to mLab making it accessible on the internet.  This guide has been slightly modified from [Part 10](https://www.youtube.com/watch?v=cBfcbb07Tqk&t=1s) of the video series as this code has been structured differently.
 
 1. Set up mLab by modifying `config/database.js` as directed in [Part 10](https://www.youtube.com/watch?v=cBfcbb07Tqk&t=1s)
 2. Modify `registerUser(user)`, `authenticateUser(user)`, and `getProfile()` functions in `auth.service.ts` to connect to mLab (example below)
