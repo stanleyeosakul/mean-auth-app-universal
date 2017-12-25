@@ -1,11 +1,13 @@
 # MEAN Auth App with Angular Universal
-This project has been updated with the most recent MEAN versions listed below and has been integrated with **Angular Universal** for SEO and social media compatibility using server-side rendering. The code of this project is a result of my code-along at the end of part 9 of the video series [MEAN Stack Front to Back](https://www.youtube.com/watch?v=uONz0lEWft0&list=PLillGF-RfqbZMNtaOXJQiDebNXjVapWPZ) by *Brad Traversy*.  The original code repo may be found [here](https://github.com/bradtraversy/meanauthapp).
+This project has been updated with the most recent MEAN versions listed below and has been integrated with **Angular Universal** for SEO and social media compatibility using server-side rendering. The code of this project is a result of my code-along at the end of part 9 of the video series [MEAN Stack Front to Back](https://www.youtube.com/watch?v=uONz0lEWft0&list=PLillGF-RfqbZMNtaOXJQiDebNXjVapWPZ) by *Brad Traversy*.  His original code repo may be found [here](https://github.com/bradtraversy/meanauthapp).  Instructions on how to deploy this code to Heroku are also included.
 
 <p align="center">
-    <img width="500" height="335" src="./src/assets/png/homepage.png">
+    <img width="500" height="335" src="./src/assets/png/homepage.png"><br>
+    <a href="https://rocky-harbor-15925.herokuapp.com/">Mean Auth App with Angular Universal</a>
 </p>
 
 ## Versions Used
+This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.6.2.
 * MongoDB v3.6.0
 * Express v4.16.2
 * Angular v5.0.0
@@ -239,6 +241,53 @@ The code in this section mainly focuses on building the front-end with Angular. 
     }
     ...
     ```
+
+# Deploying to Heroku
+This code may be deployed to Heroku and connected to mLab making it accessible on the internet.  This guide has been slightly modified from [Part 10](https://www.youtube.com/watch?v=cBfcbb07Tqk&t=1s) of the video series as this code has been structure differently.
+
+1. Set up mLab by modifying `config/database.js` as directed in [Part 10](https://www.youtube.com/watch?v=cBfcbb07Tqk&t=1s)
+2. Modify `registerUser(user)`, `authenticateUser(user)`, and `getProfile()` functions in `auth.service.ts` to connect to mLab, example below
+    ```javascript
+    registerUser(user) {
+        user.username = user.username.toLowerCase();
+        let headers = new HttpHeaders();
+        headers = headers.append('Content-Type', 'application/json');
+        return this.http.post('http://localhost:3000/users/register', user, { headers });
+    }
+    ```
+    becomes
+    ```javascript
+    registerUser(user) {
+        user.username = user.username.toLowerCase();
+        let headers = new HttpHeaders();
+        headers = headers.append('Content-Type', 'application/json');
+        return this.http.post('users/register', user, { headers });
+    }
+    ```
+3. Modify the `start` and `postinstall` scripts in `package.json` to:
+    ```json
+    "scripts": {
+        "ng": "ng",
+        "start": "node server.js",
+        "build": "ng build",
+        "test": "ng test",
+        "lint": "ng lint",
+        "e2e": "ng e2e",
+        "postinstall": "ng build --prod && ng build --prod --app universal --output-hashing=none"
+    },
+    ```
+4. Move the following dependecies from `devDependencies` to `dependencies` in `package.json`:
+    ```json
+    "dependencies": {
+        ...
+        "@angular/cli": "1.6.2",
+        "@angular/compiler-cli": "^5.0.0",
+        ...
+        "typescript": "~2.4.2",
+        ...
+    },
+    ```
+5. Deploy to Heroku as directed in [Part 10](https://www.youtube.com/watch?v=cBfcbb07Tqk&t=1s).
 
 # Further help
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
