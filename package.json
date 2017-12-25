@@ -26,7 +26,6 @@
     "@angular/platform-server": "^5.0.0",
     "@angular/router": "^5.0.0",
     "@nguniversal/express-engine": "^5.0.0-beta.5",
-    "angular2-jwt": "^0.2.3",
     "bcryptjs": "^2.4.3",
     "bluebird": "^3.5.1",
     "body-parser": "^1.18.2",

@@ -1,29 +1,240 @@
-# MEAN Stack App with Angular Universal
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.6.2, and **can be used as a template for your MEAN stack projects!**
+# MEAN Auth App with Angular Universal
+This project has been updated with the most recent MEAN versions listed below and has been integrated with **Angular Universal** for SEO and social media compatibility using server-side rendering.  It is the final code of the project at the end of the part 9 of the video series [MEAN Stack Front to Back](https://www.youtube.com/watch?v=uONz0lEWft0&list=PLillGF-RfqbZMNtaOXJQiDebNXjVapWPZ) by *Brad Traversy*.  The original code repo may be found [here](https://github.com/bradtraversy/meanauthapp).
 
-## Versions
+<p align="center">
+    <img width="500" height="335" src="./src/assets/png/homepage.png">
+</p>
+
+## Versions Used
 * MongoDB v3.6.0
 * Express v4.16.2
 * Angular v5.0.0
 * Node.js v9.3.0
 
-## Background
-This repository contains code that was originally developed using the [MEAN Stack Front to Back](https://www.youtube.com/watch?v=uONz0lEWft0&list=PLillGF-RfqbZMNtaOXJQiDebNXjVapWPZ) video series by *Brad Traversy* and represents parts 1-4 of the 10 part series.  During these videos, we have set up our back-end with Node.js/Express, our database with Mongoose/MongoDB, and have implemented API authentication/authorization using passport and a JSON web token (JWT) strategy.  We are now ready to set up our front-end with Angular in [Part 5](https://www.youtube.com/watch?v=zrViDpWiNVE&t=5s).
-
-## What's New?
-This project includes the original code as described above as well as the starter app generated from the Angular CLI using `ng new`.  The Angular starter app has been linked to our Express/Node.js/MongoDB back-end via a single `server.js` file.  **Angular Universal has also been integrated into the project for server-side rendering, making your MEAN stack project SEO and social media friendly.**
-
 ## Starting the Project
 To begin working with this project, perform the following tasks:
 
-1. Clone the repository to your local machine
+1. Clone this repository to your local machine
 2. Start up your local instance of MongoDB
 3. Run `npm install` to download dependencies
-4. Run `npm run build` to generate the */dist* folder for your Angular front-end and the */dist-server* folder for Angular Universal
-5. Run `node server.js` to start the server on `http://localhost:3000/`.
+4. Run `npmstart` to generate the */dist* folder for your Angular front-end, the */dist-server* folder for Angular Universal, and to start your Node.js server on `http://localhost:3000/`.
 
 ## Development server
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.  Please note that this will not start your MongoDB connection.
 
-## Further help
+# Code Updates to Original Project
+The original project by [Brad Traversy](https://www.youtube.com/user/TechGuyWeb) was filmed in late Febuary 2017 with Angular 2.  Since that time, there have been numerous code-breaking changes, especially with the release of Angular 5 in early November 2017.  Hopefully, this repository will help others code-along to this outstanding video series more easily.
+
+## Back-End Updates [Parts 1 - 4]
+The following changes should be made to your code when developing your back-end.  Most of these updates reflect changes to third-party packages such as Passport.js, bcrpyt, and mongoose.
+
+* Bluebird promise library (`npm install bluebird`) used with mongoose to addresss deprecation warning in `app.js` (named `server.js` in this repo).
+    ```javascript
+    // Connect to database via mongoose 
+    const config = require('./config/database');
+    mongoose.Promise = require('bluebird');
+    mongoose.connect(config.database, { useMongoClient: true, promiseLibrary: require('bluebird') })
+        .then(() => console.log(`Connected to database ${config.database}`))
+        .catch((err) => console.log(`Database error: ${err}`));
+    ```
+
+* Use `{data: user}` in the `jwt.sign()` method in `users.js`
+    ```javascript
+    User.comparePassword(password, user.password, (err, isMatch) => {
+        if(err) throw err;
+        if(isMatch) {
+            const token = jwt.sign({data: user}, config.secret, {
+    ```
+
+* Use `Bearer ${token}` (make sure to include the space) in the `User.comparePassword()` method in `users.js`
+    ```javascript
+    res.json({ 
+        success: true, 
+        token: `Bearer ${token}`,
+        user: {
+            id: user._id,
+            name: user.name,
+            username: user.username,
+            email: user.email
+        }
+    ```
+
+* Use `ExtractJwt.fromAuthHeaderAsBearerToken()` method in `passport.js`
+    ```javascript
+    module.exports = (passport) => {
+        let opts = {};
+        opts.jwtFromRequest = ExtractJwt.fromAuthHeaderAsBearerToken();
+    ```
+
+* Use `jwt_payload.data._id` as the argument to the `User.getUserById` method in `passport.js`
+    ```javascript
+    passport.use(new JwtStrategy(opts, (jwt_payload, done) => {
+            User.getUserById(jwt_payload.data._id, (err, user) => {
+    ```
+
+* Nested callback functions have been converted to Promises (optional - example shown below)
+    ```javascript
+    module.exports.addUser = function(newUser, callback){
+        bcrypt.genSalt(10, (err, salt) => {
+            bcrypt.hash(newUser.password, salt, (err, hash) => {
+                if(err) throw err;
+                newUser.password = hash;
+                newUser.save(callback);
+            });
+        });
+    }
+    ```
+    becomes 
+
+    ```javascript
+    module.exports.addUser = (newUser, callback) => { 
+        bcrypt.genSalt(10)
+            .then((salt) => bcrypt.hash(newUser.password, salt))
+            .then((hash) => {
+                newUser.password = hash;
+                newUser.save(callback);
+            }).catch((err) => console.log('There was an error adding a user.'));
+    }
+    ```
+
+## Front-End Updates [Parts 5 - 9]
+The code in this section mainly focuses on building the front-end with Angular.  This project has been integrated with Angular Universal for server side rendering and because of this, there have been several changes to the original code for compatibility reasons in addition to various UI changes.  **It's also important to note that the code in this repo is structured differently than in the video series, but the updated changes can be used in your own code-along projects.**
+
+### Forms
+* Import `FormsModule` into `app.module.ts`
+    ```javascript
+    import { FormsModule } from '@angular/common/http';
+    ...
+    ...
+    imports: [
+        BrowserModule.withServerTransition({ appId: 'serverApp' }), // BrowserModule if not using Angular Universal
+        FormsModule,
+        HttpClientModule,
+        RouterModule.forRoot(appRoutes),
+    ],
+    ```
+
+* Template-Driven Forms are used to implement forms in the `register.component` and `login.component` files (example below).
+    ```
+    <form #loginForm="ngForm" (ngSubmit)="onLoginSubmit(loginForm)">
+        <div class="form-group">
+            <label for="username">Username
+                <sup class="red">*</sup>
+            </label>
+            <input required name="username" id="username" #username="ngModel" ngModel type="email" class="form-control">
+        </div>
+    ...
+    ```
+
+* Validation used with `*ngIf` directive instead of `angular2-flash-messages` since this package was not compatible with Angular Universal.  Code adapted to continue to validate for all fields required and an appropriate e-mail input just as in the original video.  The only difference is that the flash messages do not disappear, but the functionality of each webpage was adapted to accomodate for this (example below).
+    ```
+    <h2 class="page-header">Register</h2>
+    <div class="alert alert-danger" *ngIf="errSwitch" role="alert">{{ errMsg }}</div>
+    <div class="alert alert-success" *ngIf="succSwitch" role="alert">{{ succMsg }}</div>
+    ```
+
+### HTTP Client
+`HTTPClient` is used to connect our HTTP API endpoints as the old `Http` API used in the video series has been deprecated in Angular 5.  The following syntax changes should be made in order to properly connect your back-end APIs.
+
+* Import `HTTPClientModule` into `app.module.ts`
+    ```javascript
+    import { HttpClientModule } from '@angular/common/http';
+    ...
+    ...
+    imports: [
+        BrowserModule.withServerTransition({ appId: 'serverApp' }), // BrowserModule if not using Angular Universal
+        FormsModule,
+        HttpClientModule,
+        RouterModule.forRoot(appRoutes),
+    ],
+    ```
+
+* Import `HTTPClient` into files when using the client
+    ```
+    import { HttpClient } from '@angular/common/http';
+    ```
+
+* JSON is an assumed default and no longer needs to be explicitly parsed (example from `registerUser(user)` in `auth.service.ts`).
+    ```javascript
+    return this.http.post('http://localhost:3000/users/register', user, { headers })
+        .map(res => res.json());
+    ```
+
+    becomes
+
+    ```javascript
+    return this.http.post('http://localhost:3000/users/register', user, { headers });
+    ```
+
+* Subscribe to observables as usual, but to avoid a pre-compilation error for `data.success`, set the `data` argument to type `any` (example from `login.component.ts`).
+    ```javascript
+    this.authService.authenticateUser(user).subscribe((data: any) => {
+        if (data.success) {
+            this.authService.storeUserData(data.token, data.user);
+            this.router.navigateByUrl('/dashboard');
+    ```
+
+* `HTTPHeaders` has replaced the deprecated `Headers` API. **HTTPHeaders are immutable** so after importing them from `@angular/common/http`, they must be explicitly appended to the defined header itself.  HTTPHeaders are used in `auth.service.ts`.
+    ```
+    getProfile() {
+    this.loadToken();
+    let headers = new HttpHeaders();
+    headers.append('Content-Type', 'application/json');
+    headers.append('Authorization', this.authToken);
+    return this.http.get('http://localhost:3000/users/profile', { headers });
+    }
+    ```
+    
+    becomes
+
+    ```
+    getProfile() {
+    this.loadToken();
+    let headers = new HttpHeaders();
+    headers = headers.append('Content-Type', 'application/json');
+    headers = headers.append('Authorization', this.authToken);
+    return this.http.get('http://localhost:3000/users/profile', { headers });
+    }
+    ```
+
+### Other
+* The `tokenNotExpired()` function was not implemented since the `Angular2-jwt` package was not compatibile with Angular Universal.  Instead, a simple workaround was implemented, which unfortunately does not save the user's application state after exiting the browser window.
+    ```javascript
+    loggedIn() {
+        if (this.authToken) {
+        return true;
+        } else {
+        return false;
+        }
+    }
+    ```
+
+* `NotFoundComponent` added to `app.module.ts` to catch all Error: 404 - Page Not Found routes in Angular.  There is a separate error handler for 404s with API requests in `server.js`
+    ```javascript
+    const appRoutes: Routes = [
+    { path: '', component: HomeComponent },
+        ...
+        ...
+    { path: '**', component: NotFoundComponent }
+    ];
+    ```
+
+* Class for fade-in animation added for each page transition in `styles.css` (optional)
+    ```css
+    .fadein {
+        -webkit-animation: fadein 1s; /* Safari, Chrome and Opera > 12.1 */
+            -moz-animation: fadein 1s; /* Firefox < 16 */
+            -ms-animation: fadein 1s; /* Internet Explorer */
+                -o-animation: fadein 1s; /* Opera < 12.1 */
+                animation: fadein 1s;
+    }
+
+    @keyframes fadein {
+        from { opacity: 0; }
+        to   { opacity: 1; }
+    }
+    ...
+    ```
+
+# Further help
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
