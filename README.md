@@ -172,7 +172,7 @@ The code in this section mainly focuses on building the front-end with Angular. 
             this.router.navigateByUrl('/dashboard');
     ```
 
-* `HTTPHeaders` has replaced the deprecated `Headers` API. **HTTPHeaders are immutable** so after importing them from `@angular/common/http`, they must be explicitly appended to the defined header itself.  HTTPHeaders are used in `auth.service.ts`.
+* `HTTPHeaders` has replaced the deprecated `Headers` API. HTTPHeaders are immutable so after importing them from `@angular/common/http`, they must be explicitly appended to the defined header itself.  HTTPHeaders are used in `auth.service.ts`.
     ```javascript
     getProfile() {
         this.loadToken();
@@ -204,6 +204,13 @@ The code in this section mainly focuses on building the front-end with Angular. 
         } else {
         return false;
         }
+    }
+    ```
+
+    If you are not using Angular Universal, `id_token` should be set as an argument for `tokenNotExpired()`
+    ```javascript
+    loggedIn() {
+        tokenNotExpired(id_token);
     }
     ```
 
