@@ -25,7 +25,7 @@ To begin working with this project, perform the following tasks:
 Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.  Please note that this will not start your MongoDB connection.
 
 # Code Updates to Original Project
-The original project by [Brad Traversy](https://www.youtube.com/user/TechGuyWeb) was made in early Febuary 2017 with Angular 2.  Since that time, there have been numerous code-breaking changes, especially with the release of Angular 5 in early November 2017.  Hopefully, this repository will help others code-along to this outstanding video series more easily.
+The original project by [Brad Traversy](https://www.youtube.com/user/TechGuyWeb) was made in mid Febuary 2017 with Angular 2.  Since that time, there have been numerous code-breaking changes, especially with the release of Angular 5 in early November 2017.  Hopefully, this repository will help others code-along to this outstanding video series more easily.
 
 ## Back-End Updates [Parts 1 - 4]
 The following changes should be made to your code when developing your back-end.  Most of these updates reflect changes to third-party packages such as Passport.js, bcrpyt, and mongoose.
