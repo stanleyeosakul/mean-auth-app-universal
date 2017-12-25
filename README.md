@@ -1,5 +1,5 @@
 # MEAN Auth App with Angular Universal
-This project has been updated with the most recent MEAN versions listed below and has been integrated with **Angular Universal** for SEO and social media compatibility using server-side rendering.  It is the final code of the project at the end of part 9 of the video series [MEAN Stack Front to Back](https://www.youtube.com/watch?v=uONz0lEWft0&list=PLillGF-RfqbZMNtaOXJQiDebNXjVapWPZ) by *Brad Traversy*.  The original code repo may be found [here](https://github.com/bradtraversy/meanauthapp).
+This project has been updated with the most recent MEAN versions listed below and has been integrated with **Angular Universal** for SEO and social media compatibility using server-side rendering. The code of this project is a result of my code-along at the end of part 9 of the video series [MEAN Stack Front to Back](https://www.youtube.com/watch?v=uONz0lEWft0&list=PLillGF-RfqbZMNtaOXJQiDebNXjVapWPZ) by *Brad Traversy*.  The original code repo may be found [here](https://github.com/bradtraversy/meanauthapp).
 
 <p align="center">
     <img width="500" height="335" src="./src/assets/png/homepage.png">
@@ -31,7 +31,6 @@ The following changes should be made to your code when developing your back-end.
 * Bluebird promise library (`npm install bluebird`) used with mongoose to addresss deprecation warning in `app.js` (named `server.js` in this repo).
     ```javascript
     // Connect to database via mongoose 
-    const config = require('./config/database');
     mongoose.Promise = require('bluebird');
     mongoose.connect(config.database, { useMongoClient: true, promiseLibrary: require('bluebird') })
         .then(() => console.log(`Connected to database ${config.database}`))
