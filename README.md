@@ -17,7 +17,7 @@ To begin working with this project, perform the following tasks:
 1. Clone this repository to your local machine
 2. Start up your local instance of MongoDB
 3. Run `npm install` to download dependencies
-4. Run `npmstart` to generate the */dist* folder for your Angular front-end, the */dist-server* folder for Angular Universal, and to start your Node.js server on `http://localhost:3000/`.
+4. Run `npm start` to generate the */dist* folder for your Angular front-end, the */dist-server* folder for Angular Universal, and to start your Node.js server on `http://localhost:3000/`.
 
 ## Development server
 Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.  Please note that this will not start your MongoDB connection.
