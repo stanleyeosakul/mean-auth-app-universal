@@ -1,5 +1,5 @@
 # MEAN Auth App with Angular Universal
-This project has been updated with the most recent MEAN versions listed below and has been integrated with **Angular Universal** for SEO and social media compatibility using server-side rendering.  It is the final code of the project at the end of the part 9 of the video series [MEAN Stack Front to Back](https://www.youtube.com/watch?v=uONz0lEWft0&list=PLillGF-RfqbZMNtaOXJQiDebNXjVapWPZ) by *Brad Traversy*.  The original code repo may be found [here](https://github.com/bradtraversy/meanauthapp).
+This project has been updated with the most recent MEAN versions listed below and has been integrated with **Angular Universal** for SEO and social media compatibility using server-side rendering.  It is the final code of the project at the end of part 9 of the video series [MEAN Stack Front to Back](https://www.youtube.com/watch?v=uONz0lEWft0&list=PLillGF-RfqbZMNtaOXJQiDebNXjVapWPZ) by *Brad Traversy*.  The original code repo may be found [here](https://github.com/bradtraversy/meanauthapp).
 
 <p align="center">
     <img width="500" height="335" src="./src/assets/png/homepage.png">
@@ -152,7 +152,7 @@ The code in this section mainly focuses on building the front-end with Angular. 
     import { HttpClient } from '@angular/common/http';
     ```
 
-* JSON is an assumed default and no longer needs to be explicitly parsed (example from `registerUser(user)` in `auth.service.ts`).
+* JSON is an assumed default and no longer needs to be explicitly parsed (example from `registerUser(user)` function in `auth.service.ts`).
     ```javascript
     return this.http.post('http://localhost:3000/users/register', user, { headers })
         .map(res => res.json());
