@@ -118,9 +118,7 @@ The code in this section mainly focuses on building the front-end with Angular. 
     ```
     <form #loginForm="ngForm" (ngSubmit)="onLoginSubmit(loginForm)">
         <div class="form-group">
-            <label for="username">Username
-                <sup class="red">*</sup>
-            </label>
+            <label for="username">Username <sup class="red">*</sup></label>
             <input required name="username" id="username" #username="ngModel" ngModel type="email" class="form-control">
         </div>
     ...
@@ -175,25 +173,25 @@ The code in this section mainly focuses on building the front-end with Angular. 
     ```
 
 * `HTTPHeaders` has replaced the deprecated `Headers` API. **HTTPHeaders are immutable** so after importing them from `@angular/common/http`, they must be explicitly appended to the defined header itself.  HTTPHeaders are used in `auth.service.ts`.
-    ```
+    ```javascript
     getProfile() {
-    this.loadToken();
-    let headers = new HttpHeaders();
-    headers.append('Content-Type', 'application/json');
-    headers.append('Authorization', this.authToken);
-    return this.http.get('http://localhost:3000/users/profile', { headers });
+        this.loadToken();
+        let headers = new HttpHeaders();
+        headers.append('Content-Type', 'application/json');
+        headers.append('Authorization', this.authToken);
+        return this.http.get('http://localhost:3000/users/profile', { headers });
     }
     ```
     
     becomes
 
-    ```
+    ```javascript
     getProfile() {
-    this.loadToken();
-    let headers = new HttpHeaders();
-    headers = headers.append('Content-Type', 'application/json');
-    headers = headers.append('Authorization', this.authToken);
-    return this.http.get('http://localhost:3000/users/profile', { headers });
+        this.loadToken();
+        let headers = new HttpHeaders();
+        headers = headers.append('Content-Type', 'application/json');
+        headers = headers.append('Authorization', this.authToken);
+        return this.http.get('http://localhost:3000/users/profile', { headers });
     }
     ```
 
