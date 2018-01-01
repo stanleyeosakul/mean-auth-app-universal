@@ -8,7 +8,7 @@ This project has been updated with the most recent MEAN versions listed below an
 
 ## Versions Used
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.6.2.
-* MongoDB v3.6.0
+* MongoDB v3.6.0 (Mongoose 4.13.7)
 * Express v4.16.2
 * Angular v5.0.0
 * Node.js v9.3.0
