@@ -3,7 +3,6 @@ This project has been updated with the most recent MEAN versions listed below an
 
 <p align="center">
     <img width="500" height="335" src="./src/assets/png/homepage.png"><br>
-    <a href="https://rocky-harbor-15925.herokuapp.com/" target="_blank">Mean Auth App with Angular Universal</a>
 </p>
 
 ## Versions Used
