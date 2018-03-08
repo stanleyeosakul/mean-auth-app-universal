@@ -8,10 +8,8 @@ require('zone.js/dist/zone-node');
 const express = require('express');
 const ngUniversal = require('@nguniversal/express-engine');
 const path = require('path');
-const bodyParser = require('body-parser');
 const cors = require('cors');
 const passport = require('passport');
-const mongoose = require('mongoose');
 
 // Express and Port
 const app = express();
@@ -21,11 +19,7 @@ const port = process.env.PORT || 3000;
 const appServer = require('./dist-server/main.bundle');
 
 // Connect to database via mongoose
-const config = require('./config/database');
-mongoose.Promise = require('bluebird');
-mongoose.connect(config.database, { useMongoClient: true, promiseLibrary: require('bluebird') })
-    .then(() => console.log(`Connected to database ${config.database}`))
-    .catch((err) => console.log(`Database error: ${err}`));
+require('./config/db');
 
 // Routes
 const angular = require('./routes/angular');
@@ -37,8 +31,9 @@ const users = require('./routes/users');
 // Cross-Origin Resource Sharing (CORS)
 app.use(cors());
 
-// Body-Parser
-app.use(bodyParser.json());
+// Body Parser
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
 
 // Passport
 require('./config/passport')(passport);

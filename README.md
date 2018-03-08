@@ -1,16 +1,17 @@
 # MEAN Auth App with Angular Universal
+### Last Update: 3/7/2018
 This project has been updated with the most recent MEAN versions listed below and has been integrated with **Angular Universal** for SEO and social media compatibility using server-side rendering. The code of this project is a result of my code-along at the end of part 9 of the video series [MEAN Stack Front to Back](https://www.youtube.com/watch?v=uONz0lEWft0&list=PLillGF-RfqbZMNtaOXJQiDebNXjVapWPZ) by *Brad Traversy*.  His original code repo may be found [here](https://github.com/bradtraversy/meanauthapp).  Instructions on how to deploy this code to Heroku are also included.
 
 <p align="center">
-    <img width="500" height="335" src="./src/assets/png/homepage.png"><br>
+  <img width="500" height="335" src="./src/assets/png/homepage.png"><br>
 </p>
 
 ## Versions Used
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.6.2.
-* MongoDB v3.6.0 (Mongoose 4.13.7)
+This project was generated with [Angular CLI](https://github.com/angular/angular-cli) v1.7.3
+* MongoDB v3.6.2 (Mongoose 5.0.9)
 * Express v4.16.2
-* Angular v5.0.0
-* Node.js v9.3.0
+* Angular v5.2.8
+* Node.js v9.7.1
 
 ## Starting the Project
 To begin working with this project, perform the following tasks:
@@ -29,13 +30,14 @@ The original project by [Brad Traversy](https://www.youtube.com/user/TechGuyWeb)
 ## Back-End Updates [Parts 1 - 4]
 The following changes should be made to your code when developing your back-end.  Most of these updates reflect changes to third-party packages such as Passport.js, bcrpyt, and mongoose.
 
-* Bluebird promise library (`npm install bluebird`) used with mongoose to addresss deprecation warning in `app.js` (named `server.js` in this repo).
+* Mongoose ODM has been updated to version 5 and has been separated into its own file `./config/db.js`.  The MongoURI identifier is placed in a separate `keys.js` as well.
     ```javascript
-    // Connect to database via mongoose 
-    mongoose.Promise = require('bluebird');
-    mongoose.connect(config.database, { useMongoClient: true, promiseLibrary: require('bluebird') })
-        .then(() => console.log(`Connected to database ${config.database}`))
-        .catch((err) => console.log(`Database error: ${err}`));
+    // Mongoose Configuration
+    const mongoose = require('mongoose');
+    const keys = require('./keys');
+    mongoose.connect(keys.mongoURI)
+      .then(() => console.log('MongoDB Connected'))
+      .catch(err => console.log(err));
     ```
 
 * Use `{data: user}` in the `jwt.sign()` method in `users.js`
