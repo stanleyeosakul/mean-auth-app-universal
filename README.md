@@ -11,7 +11,7 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 * MongoDB v3.6.2 (Mongoose 5.0.9)
 * Express v4.16.2
 * Angular v5.2.8
-* Node.js v9.7.1
+* Node.js v9.8.0
 
 ## Starting the Project
 To begin working with this project, perform the following tasks:
