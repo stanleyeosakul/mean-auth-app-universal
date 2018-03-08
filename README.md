@@ -32,8 +32,7 @@ The following changes should be made to your code when developing your back-end.
 
 * Mongoose has been updated to version 5 and the connection is configured as a Promise.
     ```javascript
-    // Connect to database via mongoose
-    mongoose.connect(config.mongoURI)
+    mongoose.connect(config.database)
       .then(() => console.log('MongoDB Connected'))
       .catch(err => console.log(err));
     ```
