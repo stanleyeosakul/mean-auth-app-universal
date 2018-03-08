@@ -30,7 +30,7 @@ The original project by [Brad Traversy](https://www.youtube.com/user/TechGuyWeb)
 ## Back-End Updates [Parts 1 - 4]
 The following changes should be made to your code when developing your back-end.  Most of these updates reflect changes to third-party packages such as Passport.js, bcrpyt, and mongoose.
 
-* Mongoose ODM has been updated to version 5 and has been separated into its own file `./config/db.js`.  The MongoURI identifier is placed in a separate `keys.js` as well.
+* Mongoose ODM has been updated to version 5 and has been separated into its own file `./config/db.js`.  The MongoURI identifier has also been placed in a separate file `keys.js`.
     ```javascript
     // Mongoose Configuration
     const mongoose = require('mongoose');
