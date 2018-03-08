@@ -30,12 +30,10 @@ The original project by [Brad Traversy](https://www.youtube.com/user/TechGuyWeb)
 ## Back-End Updates [Parts 1 - 4]
 The following changes should be made to your code when developing your back-end.  Most of these updates reflect changes to third-party packages such as Passport.js, bcrpyt, and mongoose.
 
-* Mongoose ODM has been updated to version 5 and has been separated into its own file `./config/db.js`.  The MongoURI identifier has also been placed in a separate file `keys.js`.
+* Mongoose has been updated to version 5 and the connection is configured as a Promise.
     ```javascript
-    // Mongoose Configuration
-    const mongoose = require('mongoose');
-    const keys = require('./keys');
-    mongoose.connect(keys.mongoURI)
+    // Connect to database via mongoose
+    mongoose.connect(config.mongoURI)
       .then(() => console.log('MongoDB Connected'))
       .catch(err => console.log(err));
     ```

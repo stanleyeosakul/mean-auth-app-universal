@@ -10,6 +10,8 @@ const ngUniversal = require('@nguniversal/express-engine');
 const path = require('path');
 const cors = require('cors');
 const passport = require('passport');
+const mongoose = require('mongoose');
+const config = require('./config/database');
 
 // Express and Port
 const app = express();
@@ -19,7 +21,9 @@ const port = process.env.PORT || 3000;
 const appServer = require('./dist-server/main.bundle');
 
 // Connect to database via mongoose
-require('./config/db');
+mongoose.connect(config.database)
+  .then(() => console.log('MongoDB Connected'))
+  .catch(err => console.log(err));
 
 // Routes
 const angular = require('./routes/angular');
